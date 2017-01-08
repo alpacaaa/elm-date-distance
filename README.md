@@ -43,6 +43,6 @@ inWords date1 date2 == "less than 20 seconds"
 
 More examples are available in the [/tests](https://github.com/alpacaaa/elm-date-distance/tree/master/tests) folder.
 
-For an in depth table of the results that this package can produce, check [Results.md](https://github.com/alpacaaa/elm-date-distance/Results.md).
+For an in depth table of the results that this package can produce, check [Results.md](https://github.com/alpacaaa/elm-date-distance/blob/master/Results.md).
 
 This package is heavily influenced by [date-fns](https://date-fns.org/docs/distanceInWords) `distanceInWords`.
