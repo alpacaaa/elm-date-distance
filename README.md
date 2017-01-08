@@ -1,7 +1,7 @@
 # elm-date-distance
 
 Distance between dates in words.
-Compare two dates and gives back results like:
+Example output:
 - `5 minutes ago`
 - `about 1 hour`
 - `in 3 months`
@@ -19,7 +19,8 @@ elm-package install alpacaaa/elm-date-distance
 ```elm
 import Date.Distance as Distance
 
--- Date.Extra is not required, you can create Date objects however you prefer
+-- Date.Extra is not required
+-- you can create Date objects however you prefer
 import Date.Extra as Date
 
 date1 = Date.fromParts 2017 May 5 10 20 0 0
