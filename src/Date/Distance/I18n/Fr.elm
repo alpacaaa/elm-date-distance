@@ -2,6 +2,7 @@ module Date.Distance.I18n.Fr
     exposing
         ( LocaleConfig
         , locale
+        , localeWithPrefix
         )
 
 {-| French locale.
@@ -32,8 +33,8 @@ type alias LocaleConfig =
             |> inWordsWithConfig
 
 -}
-locale : LocaleConfig -> Locale
-locale { addPrefix } order distance =
+localeWithOptions : LocaleConfig -> Locale
+localeWithOptions { addPrefix } order distance =
     let
         result =
             localeHelp distance
@@ -45,6 +46,16 @@ locale { addPrefix } order distance =
                 "il y a " ++ result
         else
             result
+
+
+locale : Locale
+locale =
+    localeWithOptions { addPrefix = False }
+
+
+localeWithPrefix : Locale
+localeWithPrefix =
+    localeWithOptions { addPrefix = True }
 
 
 localeHelp : DistanceLocale -> String
