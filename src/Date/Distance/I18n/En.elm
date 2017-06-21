@@ -9,24 +9,28 @@ module Date.Distance.I18n.En
 @docs locale
 -}
 
-import String
 import Date.Distance.Types exposing (Locale, DistanceLocale(..))
 import Date.Extra as Date exposing (Interval(..))
 
 
 {-| Configure the localization function.
-* `addSuffix` – turns `2 days` into `2 days ago` or `in 2 days`
+
+  - `addSuffix` – turns `2 days` into `2 days ago` or `in 2 days`
+
 -}
 type alias LocaleConfig =
-    { addSuffix : Bool
-    }
+    { addSuffix : Bool }
 
 
 {-| Configure the English locale.
 
-    locale = I18n.En.locale { addSuffix = True }
-    inWords = { defaultConfig | locale = locale }
-      |> inWordsWithConfig
+    locale =
+        I18n.En.locale { addSuffix = True }
+
+    inWords =
+        { defaultConfig | locale = locale }
+            |> inWordsWithConfig
+
 -}
 locale : LocaleConfig -> Locale
 locale { addSuffix } order distance =
