@@ -21,10 +21,18 @@ t msg config d1 d2 =
                 Expect.equal result msg
 
 
-frenchLocale : Bool -> Bool -> Config
-frenchLocale prefix seconds =
+frenchLocale : Bool -> Config
+frenchLocale seconds =
     { defaultConfig
-        | locale = French.locale { addPrefix = prefix }
+        | locale = French.locale
+        , includeSeconds = seconds
+    }
+
+
+frenchLocaleWithPrefix : Bool -> Config
+frenchLocaleWithPrefix seconds =
+    { defaultConfig
+        | locale = French.localeWithPrefix
         , includeSeconds = seconds
     }
 
@@ -32,7 +40,7 @@ frenchLocale prefix seconds =
 lessThan5 : Test
 lessThan5 =
     t "moins de 5 secondes"
-        (frenchLocale False True)
+        (frenchLocale True)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 10 32 3 0)
 
@@ -40,7 +48,7 @@ lessThan5 =
 lessThan10 : Test
 lessThan10 =
     t "moins de 10 secondes"
-        (frenchLocale False True)
+        (frenchLocale True)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 10 32 7 0)
 
@@ -48,7 +56,7 @@ lessThan10 =
 lessThan20 : Test
 lessThan20 =
     t "moins de 20 secondes"
-        (frenchLocale False True)
+        (frenchLocale True)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 10 32 15 0)
 
@@ -56,7 +64,7 @@ lessThan20 =
 halfAMinute : Test
 halfAMinute =
     t "moins d'une minute"
-        (frenchLocale False True)
+        (frenchLocale True)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 10 32 25 0)
 
@@ -64,7 +72,7 @@ halfAMinute =
 lessThanAMinute : Test
 lessThanAMinute =
     t "moins d'une minute"
-        (frenchLocale False True)
+        (frenchLocale True)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 10 32 45 0)
 
@@ -72,7 +80,7 @@ lessThanAMinute =
 oneMinute : Test
 oneMinute =
     t "1 minute"
-        (frenchLocale False True)
+        (frenchLocale True)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 10 33 0 0)
 
@@ -80,7 +88,7 @@ oneMinute =
 lessThanAMinute_ : Test
 lessThanAMinute_ =
     t "moins d'une minute"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 10 32 20 0)
 
@@ -88,7 +96,7 @@ lessThanAMinute_ =
 oneMinute_ : Test
 oneMinute_ =
     t "1 minute"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 10 32 50 0)
 
@@ -96,7 +104,7 @@ oneMinute_ =
 threeMinutes : Test
 threeMinutes =
     t "3 minutes"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 10 34 50 0)
 
@@ -104,7 +112,7 @@ threeMinutes =
 aboutOneHour : Test
 aboutOneHour =
     t "environ une heure"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 11 32 0 0)
 
@@ -112,7 +120,7 @@ aboutOneHour =
 aboutThreeHours : Test
 aboutThreeHours =
     t "environ 3 heures"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 13 32 0 0)
 
@@ -120,7 +128,7 @@ aboutThreeHours =
 oneDay : Test
 oneDay =
     t "1 jour"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 5 10 32 0 0)
 
@@ -128,7 +136,7 @@ oneDay =
 threeDays : Test
 threeDays =
     t "3 jours"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 7 10 32 0 0)
 
@@ -136,7 +144,7 @@ threeDays =
 aboutOneMonth : Test
 aboutOneMonth =
     t "environ un mois"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Apr 4 10 32 0 0)
 
@@ -144,7 +152,7 @@ aboutOneMonth =
 threeMonths : Test
 threeMonths =
     t "3 mois"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Jun 4 10 32 0 0)
 
@@ -152,7 +160,7 @@ threeMonths =
 aboutOneYear : Test
 aboutOneYear =
     t "environ un an"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1987 Mar 4 10 32 0 0)
 
@@ -160,7 +168,7 @@ aboutOneYear =
 overOneYear : Test
 overOneYear =
     t "plus d'un an"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1987 Sep 4 10 32 0 0)
 
@@ -168,7 +176,7 @@ overOneYear =
 almostThreeYears : Test
 almostThreeYears =
     t "près de 3 ans"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1989 Feb 4 10 32 0 0)
 
@@ -176,7 +184,7 @@ almostThreeYears =
 aboutThreeYears : Test
 aboutThreeYears =
     t "environ 3 ans"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1989 Mar 4 10 32 0 0)
 
@@ -184,7 +192,7 @@ aboutThreeYears =
 overThreeYears : Test
 overThreeYears =
     t "plus de 3 ans"
-        (frenchLocale False False)
+        (frenchLocale False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1989 Sep 4 10 32 0 0)
 
@@ -192,7 +200,7 @@ overThreeYears =
 halfAMinuteAgo : Test
 halfAMinuteAgo =
     t "il y a moins d'une minute"
-        (frenchLocale True False)
+        (frenchLocaleWithPrefix False)
         (Date.fromParts 1986 Mar 4 10 32 25 0)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
 
@@ -200,7 +208,7 @@ halfAMinuteAgo =
 inAboutOneHour : Test
 inAboutOneHour =
     t "dans environ une heure"
-        (frenchLocale True False)
+        (frenchLocaleWithPrefix False)
         (Date.fromParts 1986 Mar 4 10 32 0 0)
         (Date.fromParts 1986 Mar 4 11 32 0 0)
 
