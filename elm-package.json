@@ -9,7 +9,8 @@
     "exposed-modules": [
         "Date.Distance",
         "Date.Distance.Types",
-        "Date.Distance.I18n.En"
+        "Date.Distance.I18n.En",
+        "Date.Distance.I18n.Fr"
     ],
     "dependencies": {
         "elm-lang/core": "5.0.0 <= v < 6.0.0",
