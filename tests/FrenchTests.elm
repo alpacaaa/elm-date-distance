@@ -32,7 +32,7 @@ t msg config d1 d2 =
 frenchLocale : Bool -> Config
 frenchLocale seconds =
     { defaultConfig
-        | locale = French.locale
+        | locale = French.locale { addPrefix = False }
         , includeSeconds = seconds
     }
 
@@ -40,7 +40,7 @@ frenchLocale seconds =
 frenchLocaleWithPrefix : Bool -> Config
 frenchLocaleWithPrefix seconds =
     { defaultConfig
-        | locale = French.localeWithPrefix
+        | locale = French.locale { addPrefix = True }
         , includeSeconds = seconds
     }
 
