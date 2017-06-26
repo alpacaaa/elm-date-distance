@@ -10,9 +10,17 @@ import Date.Extra as Date
 import Date.Extra as Date exposing (Interval(..))
 
 
+testMsg : Config -> String -> String
+testMsg config msg =
+    if config.includeSeconds then
+        msg ++ "(with seconds)"
+    else
+        msg
+
+
 t : String -> Config -> Date.Date -> Date.Date -> Test
 t msg config d1 d2 =
-    test msg <|
+    test (testMsg config msg) <|
         \() ->
             let
                 result =
