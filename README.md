@@ -14,6 +14,14 @@ Compatible with the core [Date type](http://package.elm-lang.org/packages/elm-la
 elm-package install alpacaaa/elm-date-distance
 ```
 
+## Available Locales
+
+- English
+- French
+- Swedish
+- [Add your own!](https://github.com/alpacaaa/elm-date-distance/blob/master/src/Date/Distance/I18n/En.elm)
+
+
 ## Usage
 
 ```elm
