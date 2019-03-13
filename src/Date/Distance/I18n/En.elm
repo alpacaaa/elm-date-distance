@@ -10,8 +10,7 @@ module Date.Distance.I18n.En exposing
 
 -}
 
-import Date.Distance.Types exposing (DistanceLocale(..), Locale)
-import Date.Extra as Date exposing (Interval(..))
+import Date.Distance.Types exposing (DistanceLocale(..), Interval(..), Locale)
 
 
 {-| Configure the localization function.
@@ -89,7 +88,7 @@ locale_ distance =
 
 formatInterval : Interval -> String
 formatInterval =
-    String.toLower << toString
+    String.toLower << Debug.toString
 
 
 singular : Interval -> String
@@ -109,7 +108,7 @@ circa prefix interval i =
             prefix ++ " " ++ singular interval
 
         _ ->
-            prefix ++ " " ++ toString i ++ " " ++ formatInterval interval ++ "s"
+            prefix ++ " " ++ String.fromInt i ++ " " ++ formatInterval interval ++ "s"
 
 
 exact : Interval -> Int -> String
@@ -119,4 +118,4 @@ exact interval i =
             "1 " ++ formatInterval interval
 
         _ ->
-            toString i ++ " " ++ formatInterval interval ++ "s"
+            String.fromInt i ++ " " ++ formatInterval interval ++ "s"

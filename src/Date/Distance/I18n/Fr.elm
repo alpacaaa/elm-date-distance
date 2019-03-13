@@ -10,8 +10,7 @@ module Date.Distance.I18n.Fr exposing
 
 -}
 
-import Date.Distance.Types exposing (DistanceLocale(..), Locale)
-import Date.Extra as Date exposing (Interval(..))
+import Date.Distance.Types exposing (DistanceLocale(..), Interval(..), Locale)
 
 
 {-| Configure the localization function.
@@ -122,9 +121,6 @@ localeHelp distance =
 formatInterval : Interval -> String
 formatInterval interval =
     case interval of
-        Millisecond ->
-            "milliseconde"
-
         Second ->
             "seconde"
 
@@ -137,46 +133,16 @@ formatInterval interval =
         Day ->
             "jour"
 
-        Week ->
-            "semaine"
-
         Month ->
             "mois"
 
         Year ->
             "an"
 
-        Quarter ->
-            "trimestre"
-
-        Monday ->
-            "lundi"
-
-        Tuesday ->
-            "mardi"
-
-        Wednesday ->
-            "mercredi"
-
-        Thursday ->
-            "jeudi"
-
-        Friday ->
-            "vendredi"
-
-        Saturday ->
-            "samedi"
-
-        Sunday ->
-            "dimanche"
-
 
 singular : Interval -> String
 singular interval =
     case interval of
-        Millisecond ->
-            feminine interval
-
         Second ->
             feminine interval
 
@@ -184,9 +150,6 @@ singular interval =
             feminine interval
 
         Hour ->
-            feminine interval
-
-        Week ->
             feminine interval
 
         _ ->
@@ -219,7 +182,7 @@ circa prefix interval i =
             prefix ++ singular interval
 
         _ ->
-            prefix ++ toString i ++ " " ++ formatInterval interval ++ pluralizeInterval interval
+            prefix ++ String.fromInt i ++ " " ++ formatInterval interval ++ pluralizeInterval interval
 
 
 exact : Interval -> Int -> String
@@ -229,4 +192,4 @@ exact interval i =
             "1 " ++ formatInterval interval
 
         _ ->
-            toString i ++ " " ++ formatInterval interval ++ pluralizeInterval interval
+            String.fromInt i ++ " " ++ formatInterval interval ++ pluralizeInterval interval

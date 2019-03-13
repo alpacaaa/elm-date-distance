@@ -19,10 +19,9 @@ module Date.Distance exposing
 
 -}
 
-import Date exposing (Month(..))
 import Date.Distance.I18n.En as English
 import Date.Distance.Types exposing (..)
-import Date.Extra as Date exposing (Interval(..))
+import Time
 
 
 minutes_in_day : number
@@ -54,8 +53,8 @@ minutes_in_two_months =
 
 -}
 inWords :
-    Date.Date
-    -> Date.Date
+    Time.Posix
+    -> Time.Posix
     -> String
 inWords =
     inWordsWithConfig defaultConfig
@@ -84,20 +83,30 @@ of the available options.
 -}
 inWordsWithConfig :
     Config
-    -> Date.Date
-    -> Date.Date
+    -> Time.Posix
+    -> Time.Posix
     -> String
-inWordsWithConfig { locale, includeSeconds } d1 d2 =
+inWordsWithConfig { locale, includeSeconds } t1 t2 =
     let
+        s1 =
+            t1
+                |> Time.posixToMillis
+                |> Debug.log "t1"
+
+        s2 =
+            t2
+                |> Time.posixToMillis
+                |> Debug.log "t2"
+
         order =
-            Date.compare d1 d2
+            compare s1 s2
 
         ( fst, snd ) =
             if order == LT then
-                ( d1, d2 )
+                ( s1, s2 )
 
             else
-                ( d2, d1 )
+                ( s2, s1 )
 
         localize =
             locale order
@@ -165,15 +174,11 @@ upToOneYear minutes =
     XMonths nearestMonth
 
 
-moreThanTwoMonths :
-    Int
-    -> Date.Date
-    -> Date.Date
-    -> DistanceLocale
-moreThanTwoMonths minutes d1 d2 =
+moreThanTwoMonths : Int -> DistanceLocale
+moreThanTwoMonths minutes =
     let
         months =
-            Date.diff Month d1 d2
+            minutes // minutes_in_month
     in
     if months < 12 then
         -- 2 months up to 12 months
@@ -203,19 +208,16 @@ moreThanTwoMonths minutes d1 d2 =
 
 calculateDistance :
     Bool
-    -> Date.Date
-    -> Date.Date
+    -> Int
+    -> Int
     -> DistanceLocale
-calculateDistance includeSeconds d1 d2 =
+calculateDistance includeSeconds s1 s2 =
     let
         seconds =
-            Date.diff Second d1 d2
-
-        offset =
-            Date.offsetFromUtc d1 - Date.offsetFromUtc d2
+            (s2 - s1) // 1000 |> Debug.log "seconds diff"
 
         minutes =
-            (round <| toFloat seconds / 60) - offset
+            round <| toFloat seconds / 60
     in
     if includeSeconds && minutes < 2 then
         upToOneMinute seconds
@@ -251,4 +253,4 @@ calculateDistance includeSeconds d1 d2 =
         upToTwoMonths minutes
 
     else
-        moreThanTwoMonths minutes d1 d2
+        moreThanTwoMonths minutes

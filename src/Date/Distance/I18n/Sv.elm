@@ -10,8 +10,7 @@ module Date.Distance.I18n.Sv exposing
 
 -}
 
-import Date.Distance.Types exposing (DistanceLocale(..), Locale)
-import Date.Extra as Date exposing (Interval(..))
+import Date.Distance.Types exposing (DistanceLocale(..), Interval(..), Locale)
 
 
 {-| Configure the localization function.
@@ -90,9 +89,6 @@ locale_ distance =
 formatInterval : Interval -> String
 formatInterval interval =
     case interval of
-        Millisecond ->
-            "millisekund"
-
         Second ->
             "sekund"
 
@@ -105,46 +101,16 @@ formatInterval interval =
         Day ->
             "dag"
 
-        Week ->
-            "vecka"
-
         Month ->
             "månad"
 
         Year ->
             "år"
 
-        Quarter ->
-            "kvartal"
-
-        Monday ->
-            "måndag"
-
-        Tuesday ->
-            "tisdag"
-
-        Wednesday ->
-            "onsdag"
-
-        Thursday ->
-            "torsdag"
-
-        Friday ->
-            "fredag"
-
-        Saturday ->
-            "lördag"
-
-        Sunday ->
-            "söndag"
-
 
 singular : Interval -> String
 singular interval =
     case interval of
-        Millisecond ->
-            "en " ++ formatInterval interval
-
         Second ->
             "en " ++ formatInterval interval
 
@@ -157,46 +123,16 @@ singular interval =
         Day ->
             "en " ++ formatInterval interval
 
-        Week ->
-            "en " ++ formatInterval interval
-
         Month ->
             "en " ++ formatInterval interval
 
         Year ->
             "ett " ++ formatInterval interval
 
-        Quarter ->
-            "ett " ++ formatInterval interval
-
-        Monday ->
-            "en " ++ formatInterval interval
-
-        Tuesday ->
-            "en " ++ formatInterval interval
-
-        Wednesday ->
-            "en " ++ formatInterval interval
-
-        Thursday ->
-            "en " ++ formatInterval interval
-
-        Friday ->
-            "en " ++ formatInterval interval
-
-        Saturday ->
-            "en " ++ formatInterval interval
-
-        Sunday ->
-            "en " ++ formatInterval interval
-
 
 plural : Interval -> String
 plural interval =
     case interval of
-        Millisecond ->
-            formatInterval interval ++ "er"
-
         Second ->
             formatInterval interval ++ "er"
 
@@ -209,38 +145,11 @@ plural interval =
         Day ->
             formatInterval interval ++ "ar"
 
-        Week ->
-            formatInterval interval ++ "or"
-
         Month ->
             formatInterval interval ++ "er"
 
         Year ->
             formatInterval interval
-
-        Quarter ->
-            formatInterval interval
-
-        Monday ->
-            formatInterval interval ++ "ar"
-
-        Tuesday ->
-            formatInterval interval ++ "ar"
-
-        Wednesday ->
-            formatInterval interval ++ "ar"
-
-        Thursday ->
-            formatInterval interval ++ "ar"
-
-        Friday ->
-            formatInterval interval ++ "ar"
-
-        Saturday ->
-            formatInterval interval ++ "ar"
-
-        Sunday ->
-            formatInterval interval ++ "ar"
 
 
 circa : String -> Interval -> Int -> String
@@ -250,7 +159,7 @@ circa prefix interval i =
             prefix ++ " " ++ singular interval
 
         _ ->
-            prefix ++ " " ++ toString i ++ " " ++ plural interval
+            prefix ++ " " ++ String.fromInt i ++ " " ++ plural interval
 
 
 exact : Interval -> Int -> String
@@ -260,4 +169,4 @@ exact interval i =
             singular interval
 
         _ ->
-            toString i ++ " " ++ plural interval
+            String.fromInt i ++ " " ++ plural interval

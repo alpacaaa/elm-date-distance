@@ -2,6 +2,7 @@ module Date.Distance.Types exposing
     ( Config
     , Locale
     , DistanceLocale(..)
+    , Interval(..)
     )
 
 {-|
@@ -28,6 +29,15 @@ type DistanceLocale
     | AboutXYears Int
     | OverXYears Int
     | AlmostXYears Int
+
+
+type Interval
+    = Second
+    | Minute
+    | Hour
+    | Day
+    | Month
+    | Year
 
 
 {-| A localization function takes two arguments:
