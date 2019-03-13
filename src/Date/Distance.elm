@@ -1,22 +1,27 @@
-module Date.Distance
-    exposing
-        ( inWords
-        , inWordsWithConfig
-        , defaultConfig
-        )
+module Date.Distance exposing
+    ( inWords
+    , inWordsWithConfig
+    , defaultConfig
+    )
 
 {-|
+
+
 # Basics
+
 @docs inWords
 
+
 # Custom Config
+
 @docs inWordsWithConfig
 @docs defaultConfig
+
 -}
 
+import Date exposing (Month(..))
 import Date.Distance.I18n.En as English
 import Date.Distance.Types exposing (..)
-import Date exposing (Month(..))
 import Date.Extra as Date exposing (Interval(..))
 
 
@@ -46,6 +51,7 @@ minutes_in_two_months =
     date2 = Date.fromParts 2017 May 7 10 20 0 0
 
     inWords date1 date2 == "2 days"
+
 -}
 inWords :
     Date.Date
@@ -74,6 +80,7 @@ defaultConfig =
 
 Read the documentation on `Config` for a full run down
 of the available options.
+
 -}
 inWordsWithConfig :
     Config
@@ -88,6 +95,7 @@ inWordsWithConfig { locale, includeSeconds } d1 d2 =
         ( fst, snd ) =
             if order == LT then
                 ( d1, d2 )
+
             else
                 ( d2, d1 )
 
@@ -97,21 +105,26 @@ inWordsWithConfig { locale, includeSeconds } d1 d2 =
         distance =
             calculateDistance includeSeconds fst snd
     in
-        localize distance
+    localize distance
 
 
 upToOneMinute : Int -> DistanceLocale
 upToOneMinute seconds =
     if seconds < 5 then
         LessThanXSeconds 5
+
     else if seconds < 10 then
         LessThanXSeconds 10
+
     else if seconds < 20 then
         LessThanXSeconds 20
+
     else if seconds < 40 then
         HalfAMinute
+
     else if seconds < 60 then
         LessThanXMinutes 1
+
     else
         XMinutes 1
 
@@ -122,7 +135,7 @@ upToOneDay minutes =
         hours =
             round <| toFloat minutes / 60
     in
-        AboutXHours hours
+    AboutXHours hours
 
 
 upToOneMonth : Int -> DistanceLocale
@@ -131,7 +144,7 @@ upToOneMonth minutes =
         days =
             round <| toFloat minutes / minutes_in_day
     in
-        XDays days
+    XDays days
 
 
 upToTwoMonths : Int -> DistanceLocale
@@ -140,7 +153,7 @@ upToTwoMonths minutes =
         months =
             round <| toFloat minutes / minutes_in_month
     in
-        AboutXMonths months
+    AboutXMonths months
 
 
 upToOneYear : Int -> DistanceLocale
@@ -149,7 +162,7 @@ upToOneYear minutes =
         nearestMonth =
             round <| toFloat minutes / minutes_in_month
     in
-        XMonths nearestMonth
+    XMonths nearestMonth
 
 
 moreThanTwoMonths :
@@ -162,27 +175,30 @@ moreThanTwoMonths minutes d1 d2 =
         months =
             Date.diff Month d1 d2
     in
-        if months < 12 then
-            -- 2 months up to 12 months
-            upToOneYear minutes
-        else
-            -- 1 year up to max Date
-            let
-                monthsSinceStartOfYear =
-                    months % 12
+    if months < 12 then
+        -- 2 months up to 12 months
+        upToOneYear minutes
 
-                years =
-                    floor <| toFloat months / 12
-            in
-                if monthsSinceStartOfYear < 3 then
-                    -- N years up to 1 years 3 months
-                    AboutXYears years
-                else if monthsSinceStartOfYear < 9 then
-                    -- N years 3 months up to N years 9 months
-                    OverXYears years
-                else
-                    -- N years 9 months up to N year 12 months
-                    AlmostXYears <| years + 1
+    else
+        -- 1 year up to max Date
+        let
+            monthsSinceStartOfYear =
+                modBy 12 months
+
+            years =
+                floor <| toFloat months / 12
+        in
+        if monthsSinceStartOfYear < 3 then
+            -- N years up to 1 years 3 months
+            AboutXYears years
+
+        else if monthsSinceStartOfYear < 9 then
+            -- N years 3 months up to N years 9 months
+            OverXYears years
+
+        else
+            -- N years 9 months up to N year 12 months
+            AlmostXYears <| years + 1
 
 
 calculateDistance :
@@ -196,34 +212,43 @@ calculateDistance includeSeconds d1 d2 =
             Date.diff Second d1 d2
 
         offset =
-            (Date.offsetFromUtc d1) - (Date.offsetFromUtc d2)
+            Date.offsetFromUtc d1 - Date.offsetFromUtc d2
 
         minutes =
             (round <| toFloat seconds / 60) - offset
     in
-        if includeSeconds && minutes < 2 then
-            upToOneMinute seconds
-        else if minutes == 0 then
-            LessThanXMinutes 1
-        else if minutes < 2 then
-            XMinutes minutes
-        else if minutes < 45 then
-            -- 2 mins up to 0.75 hrs
-            XMinutes minutes
-        else if minutes < 90 then
-            -- 0.75 hrs up to 1.5 hrs
-            AboutXHours 1
-        else if minutes < minutes_in_day then
-            -- 1.5 hrs up to 24 hrs
-            upToOneDay minutes
-        else if minutes < minutes_in_almost_two_days then
-            -- 1 day up to 1.75 days
-            XDays 1
-        else if minutes < minutes_in_month then
-            -- 1.75 days up to 30 days
-            upToOneMonth minutes
-        else if minutes < minutes_in_two_months then
-            -- 1 month up to 2 months
-            upToTwoMonths minutes
-        else
-            moreThanTwoMonths minutes d1 d2
+    if includeSeconds && minutes < 2 then
+        upToOneMinute seconds
+
+    else if minutes == 0 then
+        LessThanXMinutes 1
+
+    else if minutes < 2 then
+        XMinutes minutes
+
+    else if minutes < 45 then
+        -- 2 mins up to 0.75 hrs
+        XMinutes minutes
+
+    else if minutes < 90 then
+        -- 0.75 hrs up to 1.5 hrs
+        AboutXHours 1
+
+    else if minutes < minutes_in_day then
+        -- 1.5 hrs up to 24 hrs
+        upToOneDay minutes
+
+    else if minutes < minutes_in_almost_two_days then
+        -- 1 day up to 1.75 days
+        XDays 1
+
+    else if minutes < minutes_in_month then
+        -- 1.75 days up to 30 days
+        upToOneMonth minutes
+
+    else if minutes < minutes_in_two_months then
+        -- 1 month up to 2 months
+        upToTwoMonths minutes
+
+    else
+        moreThanTwoMonths minutes d1 d2

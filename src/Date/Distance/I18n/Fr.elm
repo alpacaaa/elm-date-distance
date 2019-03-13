@@ -1,15 +1,16 @@
-module Date.Distance.I18n.Fr
-    exposing
-        ( LocaleConfig
-        , locale
-        )
+module Date.Distance.I18n.Fr exposing
+    ( LocaleConfig
+    , locale
+    )
 
 {-| French locale.
+
 @docs LocaleConfig
 @docs locale
+
 -}
 
-import Date.Distance.Types exposing (Locale, DistanceLocale(..))
+import Date.Distance.Types exposing (DistanceLocale(..), Locale)
 import Date.Extra as Date exposing (Interval(..))
 
 
@@ -38,13 +39,15 @@ locale { addPrefix } order distance =
         result =
             localeHelp distance
     in
-        if addPrefix then
-            if order == LT then
-                "dans " ++ result
-            else
-                "il y a " ++ result
+    if addPrefix then
+        if order == LT then
+            "dans " ++ result
+
         else
-            result
+            "il y a " ++ result
+
+    else
+        result
 
 
 localeHelp : DistanceLocale -> String
@@ -54,6 +57,7 @@ localeHelp distance =
             circa
                 (if i == 1 then
                     "moins d'"
+
                  else
                     "moins de "
                 )
@@ -67,6 +71,7 @@ localeHelp distance =
             circa
                 (if i == 1 then
                     "moins d'"
+
                  else
                     "moins de "
                 )
@@ -95,6 +100,7 @@ localeHelp distance =
             circa
                 (if i == 1 then
                     "plus d'"
+
                  else
                     "plus de "
                 )
@@ -105,6 +111,7 @@ localeHelp distance =
             circa
                 (if i == 1 then
                     "près d'"
+
                  else
                     "près de "
                 )
@@ -200,6 +207,7 @@ pluralizeInterval : Interval -> String
 pluralizeInterval interval =
     if interval /= Month then
         "s"
+
     else
         ""
 

@@ -1,15 +1,16 @@
-module Date.Distance.I18n.En
-    exposing
-        ( LocaleConfig
-        , locale
-        )
+module Date.Distance.I18n.En exposing
+    ( LocaleConfig
+    , locale
+    )
 
 {-| English locale. Used by default.
+
 @docs LocaleConfig
 @docs locale
+
 -}
 
-import Date.Distance.Types exposing (Locale, DistanceLocale(..))
+import Date.Distance.Types exposing (DistanceLocale(..), Locale)
 import Date.Extra as Date exposing (Interval(..))
 
 
@@ -38,13 +39,15 @@ locale { addSuffix } order distance =
         result =
             locale_ distance
     in
-        if addSuffix then
-            if order == LT then
-                "in " ++ result
-            else
-                result ++ " ago"
+    if addSuffix then
+        if order == LT then
+            "in " ++ result
+
         else
-            result
+            result ++ " ago"
+
+    else
+        result
 
 
 locale_ : DistanceLocale -> String

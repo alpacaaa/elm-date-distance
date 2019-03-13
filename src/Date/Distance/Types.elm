@@ -1,14 +1,15 @@
-module Date.Distance.Types
-    exposing
-        ( Locale
-        , Config
-        , DistanceLocale(..)
-        )
+module Date.Distance.Types exposing
+    ( Config
+    , Locale
+    , DistanceLocale(..)
+    )
 
 {-|
+
 @docs Config
 @docs Locale
 @docs DistanceLocale
+
 -}
 
 
@@ -30,10 +31,12 @@ type DistanceLocale
 
 
 {-| A localization function takes two arguments:
-* `Order` – determines if the first date passed to `inWords`
-is after the second date (useful for relative distances)
 
-* `DistanceLocale` – distance between the two dates
+  - `Order` – determines if the first date passed to `inWords`
+    is after the second date (useful for relative distances)
+
+  - `DistanceLocale` – distance between the two dates
+
 -}
 type alias Locale =
     Order -> DistanceLocale -> String
@@ -41,8 +44,9 @@ type alias Locale =
 
 {-| To be used with `inWordsWithConfig`.
 
-* `locale` – localization function (see `I18n.En`)
-* `includeSeconds` – get more precise results for distances under a minute
+  - `locale` – localization function (see `I18n.En`)
+  - `includeSeconds` – get more precise results for distances under a minute
+
 -}
 type alias Config =
     { locale : Locale

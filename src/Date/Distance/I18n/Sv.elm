@@ -1,12 +1,13 @@
-module Date.Distance.I18n.Sv
-    exposing
-        ( LocaleConfig
-        , locale
-        )
+module Date.Distance.I18n.Sv exposing
+    ( LocaleConfig
+    , locale
+    )
 
 {-| Swedish locale. Used by default.
+
 @docs LocaleConfig
 @docs locale
+
 -}
 
 import Date.Distance.Types exposing (DistanceLocale(..), Locale)
@@ -41,8 +42,10 @@ locale { addAffix } order distance =
     if addAffix then
         if order == LT then
             "om " ++ result
+
         else
             result ++ " sedan"
+
     else
         result
 
